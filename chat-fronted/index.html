@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat</title>
+  <style>
+    /* Estilos básicos */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #chat-container {
+      display: none; /* Oculto por defecto */
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      background-color: #f9f9f9;
+    }
+    #messages {
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+    #form-container {
+      width: 100%;
+      max-width: 400px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <!-- Formulario para el nombre -->
+  <div id="form-container">
+    <h2>Ingresa tu nombre</h2>
+    <input type="text" id="username" placeholder="Escribe tu nombre..." />
+    <button id="start-chat">Entrar</button>
+  </div>
+
+  <!-- Contenedor del chat -->
+  <div id="chat-container">
+    <div id="messages"></div>
+    <input type="text" id="message" placeholder="Escribe un mensaje..." />
+    <button id="send-message">Enviar</button>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
