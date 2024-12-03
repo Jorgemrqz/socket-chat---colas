@@ -64,7 +64,7 @@ const server = net.createServer((socket) => {
                     client.socket = socket; // Actualizamos el socket
                     client.connected = true;
                     console.log(`Cliente reconectado: ${clientId}`);
-
+                    
                     // Enviar mensajes pendientes
                     const pendingMessages = messageQueues.get(clientId);
                     console.log(`Enviando ${pendingMessages.length} mensajes pendientes a ${clientId}`);
@@ -72,6 +72,14 @@ const server = net.createServer((socket) => {
                         const { from, text } = pendingMessages.shift();
                         socket.write(`${from}: ${text}\n`);
                     }
+
+                     // Notificar a los demás clientes que el usuario se reconectó
+                     clients.forEach((client, id) => {
+                        if (id !== clientId) {
+                            client.socket.write(`Usuario reconectado: ${clientId}\n`);
+                        }
+                    });
+                    
                 }
                 return; // No procesar el mensaje inicial como texto normal
             }
