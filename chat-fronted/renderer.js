@@ -12,6 +12,7 @@ let client = null; // Socket del cliente
 let clientId = ''; // ID único del cliente
 let username = ''; // Nombre del usuario
 let reconnectInterval = 5000; // Intervalo de reconexión en ms
+let buffer = ''; // Buffer para manejar mensajes incompletos
 
 // Conectar al servidor
 function connectToServer() {
@@ -26,8 +27,18 @@ function connectToServer() {
     });
 
     client.on('data', (data) => {
-        const message = data.toString();
-        appendMessage(message); // Mostrar mensaje en la interfaz
+        buffer += data.toString(); // Acumular datos
+
+        // Dividir el buffer por el delimitador de salto de línea '\n'
+        const messages = buffer.split('\n');
+
+        // Procesar todos los mensajes completos
+        for (let i = 0; i < messages.length - 1; i++) {
+            appendMessage(messages[i]); // Mostrar el mensaje completo
+        }
+
+        // Dejar el último mensaje incompleto en el buffer
+        buffer = messages[messages.length - 1];
     });
 
     client.on('error', (err) => {

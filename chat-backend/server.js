@@ -69,8 +69,8 @@ const server = net.createServer((socket) => {
                     const pendingMessages = messageQueues.get(clientId);
                     console.log(`Enviando ${pendingMessages.length} mensajes pendientes a ${clientId}`);
                     while (pendingMessages.length > 0) {
-                        const pendingMessage = pendingMessages.shift();
-                        socket.write(pendingMessage);
+                        const { from, text } = pendingMessages.shift();
+                        socket.write(`${from}: ${text}\n`);
                     }
                 }
                 return; // No procesar el mensaje inicial como texto normal
@@ -85,7 +85,7 @@ const server = net.createServer((socket) => {
                     } else {
                         // Cliente desconectado, almacenar mensaje en la cola
                         const queue = messageQueues.get(id);
-                        queue.push(`${clientId}: ${message}\n`);
+                        queue.push({ from: clientId, text: message });
                         console.log(`Mensaje almacenado en la cola para ${id}`);
                     }
                 }
